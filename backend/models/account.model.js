@@ -1,7 +1,7 @@
 const { model, Schema } = require('mongoose');
 
 // Schema for Accounts
-const clothSchema = new Schema({
+const accountSchema = new Schema({
   createdBy: {
     type: Schema.Types.ObjectId,
     ref: 'User'
@@ -9,17 +9,17 @@ const clothSchema = new Schema({
   name: String,
   accessKey: String,
   secret: String,
-  scanStatus:{
-    pluginId: {
-      type: Schema.Types.ObjectId,
-      ref: 'Plugin'
-    },
-    lastScanned: String,
-    Data: {
-      affectedResources: [String],
-      ExposedPorts: [String],
-    }
-  },
+  scanStatus:[
+    {
+      pluginId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Plugin'
+      },
+      data: {
+        affectedResources: [String],
+        exposedPorts: [String],
+      }
+    }],
 });
 
-module.exports = model('Account', clothSchema, 'accounts');
+module.exports = model('Account', accountSchema, 'accounts');
