@@ -10,6 +10,8 @@
   "author": "Shambhavi Shandilya",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.52.0",
+    "aws-sdk": "^2.1079.0",
     "axios": "^0.24.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
