@@ -1,6 +1,7 @@
 const Plugin = require('../models/plugin.model');
 const Account = require('../models/account.model');
 const {s3PublicAccess} = require('../plugins/s3Public');
+const {s3PolicyPublicAccess} = require('../plugins/s3PolicyPublic');
 
 // adds new account for the logged in user
 const registerAccount = async (req, res) => {
@@ -46,11 +47,17 @@ const scanAll = async (req, res) => {
     const scanAccount = await Account.findOne({_id: accountId});
     var scanAccountUpdate = scanAccount;
 
-    for(var i=1;i<2;i++)
+    for(var i=0;i<2;i++)
     {
         if(plugins[i].name=="S3 Public Access")
         {
             var result = await s3PublicAccess(scanAccount.accessKey, scanAccount.secret);
+            console.log(scanAccountUpdate.scanStatus[i].data.affectedResources);
+            scanAccountUpdate.scanStatus[i].data.affectedResources = result;
+        }
+        if(plugins[i].name=="S3 Policy Public Access")
+        {
+            var result = await s3PolicyPublicAccess(scanAccount.accessKey, scanAccount.secret);
             console.log(scanAccountUpdate.scanStatus[i].data.affectedResources);
             scanAccountUpdate.scanStatus[i].data.affectedResources = result;
         }
