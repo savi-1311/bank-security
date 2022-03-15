@@ -10,6 +10,7 @@
   "author": "Shambhavi Shandilya",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-ec2": "^3.54.0",
     "@aws-sdk/client-s3": "^3.52.0",
     "aws-sdk": "^2.1079.0",
     "axios": "^0.24.0",
