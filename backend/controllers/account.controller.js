@@ -44,7 +44,7 @@ const registerAccount = async (req, res) => {
 };
 
 const scanAll = async (req, res) => {
-    const {accountId} = req.body;
+    const {accountId, userId} = req.body;
     const plugins = await Plugin.find({});
     const scanAccount = await Account.findOne({_id: accountId});
     var scanAccountUpdate = scanAccount;
@@ -81,17 +81,36 @@ const scanAll = async (req, res) => {
     }
     await Account.findOneAndUpdate({_id: accountId}, scanAccountUpdate);
 
+    const accounts = await Account.find({_id: accountId});
+
     return res
         .status(200)
         .json({
             success: true,
-            msg: 'Scanned successfully'
+            accounts: accounts
         });
 
 };
 
+const listAccounts = async (req, res) => {
+    const {userId} = req.body;
+    const accounts = await Account.find({createdBy: userId});
+    const plugins = await Plugin.find({});
+    let pluginMap = {};
+    for(var i=0;i<plugins.length;i++)
+        pluginMap[plugins[i]._id]=plugins[i];
+
+    return res
+        .status(200)
+        .json({
+            success: true,
+            accounts: accounts,
+            plugins: pluginMap
+        });
+};
 
 module.exports = {
     registerAccount,
-    scanAll
+    scanAll,
+    listAccounts
 };
